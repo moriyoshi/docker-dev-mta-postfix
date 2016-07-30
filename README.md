@@ -21,7 +21,7 @@ docker run
   -e POSTFIX_RELAY_TLS=may
   -e POSTFIX_RELAY_AUTH_USER=someone@example.com
   -e POSTFIX_RELAY_AUTH_PASSWORD=credential-such-as-XOAUTH2-token
-  moriyoshi/docker-dev-mta-postfix
+  moriyoshi/dev-mta-postfix
 ```
 
 ## Environment variables
