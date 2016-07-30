@@ -15,12 +15,12 @@ A simple MTA for development using Postfix
 ## Synopsis
 
 ```
-docker run 
-  -e CATCHALL_EMAIL_ADDRESS=someone@example.com
-  -e POSTFIX_RELAY_HOST='[smtp.gmail.com]:587'
-  -e POSTFIX_RELAY_TLS=may
-  -e POSTFIX_RELAY_AUTH_USER=someone@example.com
-  -e POSTFIX_RELAY_AUTH_PASSWORD=credential-such-as-XOAUTH2-token
+docker run \
+  -e CATCHALL_EMAIL_ADDRESS=someone@example.com \
+  -e POSTFIX_RELAY_HOST='[smtp.gmail.com]:587' \
+  -e POSTFIX_RELAY_TLS=may \
+  -e POSTFIX_RELAY_AUTH_USER=someone@example.com \
+  -e POSTFIX_RELAY_AUTH_PASSWORD=credential-such-as-XOAUTH2-token \
   moriyoshi/dev-mta-postfix
 ```
 
@@ -73,42 +73,54 @@ docker run
   -e POSTFIX_RELAY_SASL_MECHANISMS=xoauth2
   ```
 
-* OAUTH2_TOKEN_AUTOREFRESH
+* OAUTH2_TOKEN_AUTO_REFRESH
 
   ```
-  -e OAUTH2_TOKEN_AUTOREFRESH
+  -e OAUTH2_TOKEN_AUTO_REFRESH=1
   ```
 
-* OAUTH2_AUTH_ENDPOINT
+  Setting a non-empty value enables OAuth2 token auto-refresh.
 
-  ```
-  -e OAUTH2_AUTH_ENDPOINT
-  ```
 
-* OAUTH2_TOKEN_ENDPOINT
+## OAuth2 token auto refreshing
 
-  ```
-  -e OAUTH2_TOKEN_ENDPOINT
-  ```
+Executing the following outputs the OAuth2 authorization endpoint URL.
 
-* OAUTH2_SCOPE
+```
+docker run \
+  --rm \
+  -e OAUTH2_AUTH_ENDPOINT=https://accounts.google.com/o/oauth2/auth \
+  -e OAUTH2_TOKEN_ENDPOINT=https://accounts.google.com/o/oauth2/token \
+  -e OAUTH2_SCOPE=mail.google.com \
+  -e OAUTH2_CLIENT_ID=***** \
+  -e OAUTH2_CLIENT_SECRET=***** \
+  -v SOME-DIRECTORY:/dev-mta-postfix/state \
+  moriyoshi/dev-mta-postfix auth
+```
 
-  ```
-  -e OAUTH2_SCOPE
-  ```
+Get the authorization code by navigating your browser to the URL and put the code to the `[oauth2-state]` in `SOME-DIRECTORY/state.ini` that should have been created by the above.
 
-* OAUTH2_CLIENT_ID
+```
+[oauth2]
+client_id = *****
+client_secret = *****
 
-  ```
-  -e OAUTH2_CLIENT_ID
-  ```
+[oauth2-state]
+authorization_code = HERE
+```
 
-* OAUTH2_CLIENT_SECRET
+Then, launch the container like below.
 
-  ```
-  -e OAUTH2_CLIENT_SECRET
-  ```
-
+```
+docker run \
+  -e CATCHALL_EMAIL_ADDRESS=someone@example.com \
+  -e POSTFIX_RELAY_HOST='[smtp.gmail.com]:587' \
+  -e POSTFIX_RELAY_TLS=may \
+  -e POSTFIX_RELAY_AUTH_USER=someone@example.com \
+  -e OAUTH2_TOKEN_AUTO_REFRESH=1 \
+  -v SOME-DIRECTORY:/dev-mta-postfix/state \
+  moriyoshi/dev-mta-postfix
+```
 
 ## License
 
