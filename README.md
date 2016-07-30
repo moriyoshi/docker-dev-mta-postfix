@@ -124,6 +124,6 @@ docker run \
 
 ## License
 
-The source codes that originates from this repository are solely licensed under the MIT license.
+The source codes that originate from this repository are solely licensed under the MIT license.
 
 Other copyrighted materials may be licensed under the different terms.
