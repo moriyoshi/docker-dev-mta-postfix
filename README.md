@@ -10,7 +10,7 @@ A simple MTA for development using Postfix
 
 * Gmail XOAUTH2 support
 
-  Thanks to [cyrus-sasl-xoauth2](https://github.com/moriyoshi/cyrus-sasl-xauth2), SASL XOAuth2 authentication is supported out of the box.
+  Thanks to [cyrus-sasl-xoauth2](https://github.com/moriyoshi/cyrus-sasl-xoauth2), SASL XOAuth2 authentication is supported out of the box.
 
 ## Synopsis
 
@@ -27,39 +27,88 @@ docker run
 ## Environment variables
 
 * CATCHALL_EMAIL_ADDRESS
+
   ```
   -e CATCHALL_EMAIL_ADDRESS=someone@example.com
   ```
 * POSTFIX_RELAY_HOST
+
   ```
   -e POSTFIX_RELAY_HOST='[smtp.gmail.com]:587'
   ```
+
 * POSTFIX_RELAY_TLS
+
   ```
   -e POSTFIX_RELAY_TLS=may
   ```
+
 * POSTFIX_RELAY_AUTH_USER
+
   ```
   -e POSTFIX_RELAY_AUTH_USER=someone@example.com
   ```
+
 * POSTFIX_RELAY_AUTH_PASSWORD
+
   ```
   -e POSTFIX_RELAY_AUTH_PASSWORD=credential-such-as-XOAUTH2-token
   ```
+
 * POSTFIX_RELAY_HOST_BY_SENDER
+
   ```
   -e POSTFIX_RELAY_HOST_BY_SENDER='
   someone@example.com	[smtp.gmail.com]:587
   another@example.com	[intranet]:25
   '
   ```
+
 * POSTFIX_RELAY_SASL_MECHANISMS
   ```
   -e POSTFIX_RELAY_SASL_MECHANISMS=login,plain
   ```
+
   ```
   -e POSTFIX_RELAY_SASL_MECHANISMS=xoauth2
   ```
+
+* OAUTH2_TOKEN_AUTOREFRESH
+
+  ```
+  -e OAUTH2_TOKEN_AUTOREFRESH
+  ```
+
+* OAUTH2_AUTH_ENDPOINT
+
+  ```
+  -e OAUTH2_AUTH_ENDPOINT
+  ```
+
+* OAUTH2_TOKEN_ENDPOINT
+
+  ```
+  -e OAUTH2_TOKEN_ENDPOINT
+  ```
+
+* OAUTH2_SCOPE
+
+  ```
+  -e OAUTH2_SCOPE
+  ```
+
+* OAUTH2_CLIENT_ID
+
+  ```
+  -e OAUTH2_CLIENT_ID
+  ```
+
+* OAUTH2_CLIENT_SECRET
+
+  ```
+  -e OAUTH2_CLIENT_SECRET
+  ```
+
 
 ## License
 
