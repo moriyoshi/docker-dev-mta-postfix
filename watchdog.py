@@ -57,6 +57,7 @@ def c1():
             return stop
 
 def c2():
+    os.waitpid(-1, os.WNOHANG)
     try:
         s = os.waitpid(pid[0], os.WNOHANG)
     except:
@@ -122,7 +123,6 @@ def stop(sig, frame):
 
 def stop2(sig, frame):
     do_it[0] = stop
-
 
 do_it = [c1]
 
