@@ -30,6 +30,7 @@ def split_into_pairs(v):
     return retval
 
 POSTMAP = os.environ.get('POSTMAP', '/usr/sbin/postmap')
+POSTALIAS = os.environ.get('POSTMAP', '/usr/sbin/postalias')
 POSTCONF = os.environ.get('POSTCONF', '/usr/sbin/postconf')
 
 templates = [
@@ -38,6 +39,7 @@ templates = [
     ('templates/sasl_passwd.j2', '/etc/postfix/sasl_passwd', POSTMAP, lambda vars: vars.get('postfix_relay_auth_user')),
     ('templates/sender_dependent_relayhosts.j2', '/etc/postfix/sender_dependent_relayhosts', None, lambda vars: vars.get('postfix_relay_host_by_sender')),
     ('templates/virtual.j2', '/etc/postfix/virtual', POSTMAP, lambda vars: vars.get('catchall_email_address')),
+    ('templates/aliases.j2', '/etc/aliases', POSTALIAS, lambda vars: vars.get('postfix_aliases')),
     ]
 
 postconf = get_postconf([POSTCONF, '-d'])
@@ -53,6 +55,7 @@ postfix_relay_auth_user = os.environ.get('POSTFIX_RELAY_AUTH_USER')
 postfix_relay_auth_password = os.environ.get('POSTFIX_RELAY_AUTH_PASSWORD', '')
 postfix_relay_host_by_sender = split_into_pairs(os.environ.get('POSTFIX_RELAY_HOST_BY_SENDER', ''))
 postfix_relay_sasl_mechanisms = split_by_commas(os.environ.get('POSTFIX_RELAY_SASL_MECHANISMS', ''))
+postfix_aliases = split_into_pairs(os.environ.get('POSTFIX_ALIASES', ''))
 
 if catchall_email_address:
     vars['catchall_email_address'] = catchall_email_address
@@ -70,6 +73,8 @@ if postfix_relay_host_by_sender:
     vars['postfix_relay_host_by_sender'] = postfix_relay_host_by_sender
 if postfix_relay_sasl_mechanisms:
     vars['postfix_relay_sasl_mechanisms'] = postfix_relay_sasl_mechanisms
+if postfix_aliases:
+    vars['postfix_aliases'] = postfix_aliases
 
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
 
@@ -85,3 +90,6 @@ for src, dest, touch, cond in templates:
     open(dest, 'w').write(t.render(vars))
     if touch is not None:
         subprocess.call([touch, dest])
+
+if not os.exists("/var/mail"):
+    os.makedirs("/var/mail")

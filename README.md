@@ -31,31 +31,31 @@ docker run \
   ```
   -e CATCHALL_EMAIL_ADDRESS=someone@example.com
   ```
-* POSTFIX_RELAY_HOST
+* `POSTFIX_RELAY_HOST`
 
   ```
   -e POSTFIX_RELAY_HOST='[smtp.gmail.com]:587'
   ```
 
-* POSTFIX_RELAY_TLS
+* `POSTFIX_RELAY_TLS`
 
   ```
   -e POSTFIX_RELAY_TLS=may
   ```
 
-* POSTFIX_RELAY_AUTH_USER
+* `POSTFIX_RELAY_AUTH_USER`
 
   ```
   -e POSTFIX_RELAY_AUTH_USER=someone@example.com
   ```
 
-* POSTFIX_RELAY_AUTH_PASSWORD
+* `POSTFIX_RELAY_AUTH_PASSWORD`
 
   ```
   -e POSTFIX_RELAY_AUTH_PASSWORD=credential-such-as-XOAUTH2-token
   ```
 
-* POSTFIX_RELAY_HOST_BY_SENDER
+* `POSTFIX_RELAY_HOST_BY_SENDER`
 
   ```
   -e POSTFIX_RELAY_HOST_BY_SENDER='
@@ -64,7 +64,7 @@ docker run \
   '
   ```
 
-* POSTFIX_RELAY_SASL_MECHANISMS
+* `POSTFIX_RELAY_SASL_MECHANISMS`
   ```
   -e POSTFIX_RELAY_SASL_MECHANISMS=login,plain
   ```
@@ -73,7 +73,16 @@ docker run \
   -e POSTFIX_RELAY_SASL_MECHANISMS=xoauth2
   ```
 
-* OAUTH2_TOKEN_AUTO_REFRESH
+* `POSTFIX_ALIASES`
+
+  ```
+  -e POSTFIX_ALIASES='
+  localuser	root
+  do_something	|command
+  '
+  ```
+
+* `OAUTH2_TOKEN_AUTO_REFRESH`
 
   ```
   -e OAUTH2_TOKEN_AUTO_REFRESH=1
