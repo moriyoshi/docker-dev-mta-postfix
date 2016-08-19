@@ -91,5 +91,5 @@ for src, dest, touch, cond in templates:
     if touch is not None:
         subprocess.call([touch, dest])
 
-if not os.exists("/var/mail"):
+if not os.path.exists("/var/mail"):
     os.makedirs("/var/mail")
