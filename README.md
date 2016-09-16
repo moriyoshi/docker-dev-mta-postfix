@@ -100,7 +100,7 @@ docker run \
   --rm \
   -e OAUTH2_AUTH_ENDPOINT=https://accounts.google.com/o/oauth2/auth \
   -e OAUTH2_TOKEN_ENDPOINT=https://accounts.google.com/o/oauth2/token \
-  -e OAUTH2_SCOPE=mail.google.com \
+  -e OAUTH2_SCOPE=https://mail.google.com/ \
   -e OAUTH2_CLIENT_ID=***** \
   -e OAUTH2_CLIENT_SECRET=***** \
   -v SOME-DIRECTORY:/dev-mta-postfix/state \
